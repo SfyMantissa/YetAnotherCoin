@@ -68,6 +68,7 @@ contract YetAnotherCoin {
 
   function burn(address account, uint256 amount) public {
     require(account != address(0), "Burner account must have a non-zero address!");
+    require(balances[account] >= amount, "Burn amount must not exceed balance!");
 
     balances[account] -= amount;
     _totalSupply -= amount;
