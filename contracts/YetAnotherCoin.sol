@@ -20,6 +20,7 @@ contract YetAnotherCoin {
     _symbol = "YAC";
     _decimals = 5;  
     _totalSupply = 100000;
+    balances[msg.sender] = _totalSupply;
   }
 
   function transfer(address buyer, uint256 amount) public returns (bool success) {
