@@ -12,8 +12,17 @@ contract YetAnotherCoin {
   uint8 private _decimals;
   uint256 private _totalSupply;
 
-  event Transfer(address indexed seller, address indexed buyer, uint256 amount);
-  event Approval(address indexed owner, address indexed delegate, uint256 amount);
+  event Transfer(
+    address indexed seller,
+    address indexed buyer,
+    uint256 amount
+  );
+
+  event Approval(
+    address indexed owner,
+    address indexed delegate,
+    uint256 amoun
+  );
 
   constructor() {
     _name = "YetAnotherCoin";
@@ -23,9 +32,15 @@ contract YetAnotherCoin {
     balances[msg.sender] = _totalSupply;
   }
 
-  function transfer(address buyer, uint256 amount) public returns (bool success) {
+  function transfer(address buyer, uint256 amount) 
+    public
+    returns (bool success)
+  {
     require(buyer != address(0), "Buyer must have a non-zero address!");
-    require(balances[msg.sender] >= amount, "Transfer amount must not exceed balance!");
+    require(
+      balances[msg.sender] >= amount,
+      "Transfer amount must not exceed balance!"
+    );
 
     balances[msg.sender] -= amount;
     balances[buyer] += amount;
@@ -34,11 +49,22 @@ contract YetAnotherCoin {
     return true;
   }
 
-  function transferFrom(address seller, address buyer, uint256 amount) public returns (bool success) {
+  function transferFrom(address seller, address buyer, uint256 amount)
+    public
+    returns (bool success)
+  {
     require(seller != address(0), "Seller must have a non-zero address!");
     require(buyer != address(0), "Buyer must have a non-zero address!");
-    require(balances[seller] >= amount, "Seller does not have the specified amount!");
-    require(allowances[seller][msg.sender] >= amount, "Delegate does not have enough allowance!");
+
+    require(
+      balances[seller] >= amount,
+      "Seller does not have the specified amount!"
+    );
+
+    require(
+      allowances[seller][msg.sender] >= amount,
+      "Delegate does not have enough allowance!"
+    );
 
     balances[seller] -= amount;
     allowances[seller][msg.sender] -= amount;
@@ -48,7 +74,10 @@ contract YetAnotherCoin {
     return true;
   }
 
-  function approve(address delegate, uint256 amount) public returns (bool success) {
+  function approve(address delegate, uint256 amount)
+    public
+    returns (bool success)
+  {
     require(delegate != address(0), "Delegate must have a non-zero address!");
 
     allowances[msg.sender][delegate] = amount;
@@ -57,7 +86,9 @@ contract YetAnotherCoin {
     return true;
   }
 
-  function mint(address account, uint256 amount) public {
+  function mint(address account, uint256 amount)
+    public
+  {
     require(account != address(0), "Receiving account must have a non-zero address!");
 
     _totalSupply += amount;
@@ -66,7 +97,9 @@ contract YetAnotherCoin {
     emit Transfer(address(0), account, amount);
   }
 
-  function burn(address account, uint256 amount) public {
+  function burn(address account, uint256 amount)
+    public
+  {
     require(account != address(0), "Burner account must have a non-zero address!");
     require(balances[account] >= amount, "Burn amount must not exceed balance!");
 
@@ -76,27 +109,51 @@ contract YetAnotherCoin {
     emit Transfer(account, address(0), amount);
   }
 
-  function name() public view returns (string memory) {
+  function name()
+    public
+    view
+    returns (string memory)
+  {
     return _name;
   }
 
-  function symbol() public view returns (string memory) {
+  function symbol()
+    public
+    view
+    returns (string memory)
+  {
     return _symbol;
   }
 
-  function decimals() public view returns (uint8) {
+  function decimals()
+    public
+    view
+    returns (uint8)
+  {
     return _decimals;
   }
 
-  function totalSupply() public view returns (uint256) {
+  function totalSupply()
+    public
+    view
+    returns (uint256)
+  {
     return _totalSupply;
   }
 
-  function balanceOf(address account) public view returns (uint256 balance) {
+  function balanceOf(address account)
+    public
+    view
+    returns (uint256 balance)
+  {
     return balances[account];
   }
 
-  function allowance(address account, address delegate) public view returns (uint256 remaining) {
+  function allowance(address account, address delegate)
+    public
+    view
+    returns (uint256 remaining)
+  {
     return allowances[account][delegate];
   }
 }
