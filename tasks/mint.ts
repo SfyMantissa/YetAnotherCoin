@@ -1,12 +1,14 @@
-const yetAnotherCoinAddress = require('./address');
+import "@nomiclabs/hardhat-ethers";
+import { task } from "hardhat/config";
+import { yetAnotherCoinAddress } from "./address";
 
 task("mint",
   "Allows the caller to give the specified `amount` of tokens to the `account` and increase `_totalSupply` by the `amount`.")
   .addParam("account", "Address of the recepient.")
   .addParam("amount", "Number of tokens to be transferred.")
-  .setAction(async (taskArgs) => {
-    const YetAnotherCoin = await hre.ethers.getContractFactory("YetAnotherCoin");
-    const yetAnotherCoin = await YetAnotherCoin.attach(yetAnotherCoinAddress);
+  .setAction(async (taskArgs, { ethers }) => {
+    const YetAnotherCoin = await ethers.getContractFactory("YetAnotherCoin");
+    const yetAnotherCoin = YetAnotherCoin.attach(yetAnotherCoinAddress);
     const txMint = yetAnotherCoin.mint(taskArgs.account, taskArgs.amount);
     const rMint = await (await txMint).wait();
 

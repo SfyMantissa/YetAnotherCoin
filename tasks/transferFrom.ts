@@ -1,4 +1,6 @@
-const yetAnotherCoinAddress = require('./address');
+import "@nomiclabs/hardhat-ethers";
+import { task } from "hardhat/config";
+import { yetAnotherCoinAddress } from "./address";
 
 task("transferFrom",
   "Allows to transfer a specified `amount` of tokens on behalf of `seller` by the delegate.")
@@ -6,9 +8,9 @@ task("transferFrom",
   .addParam("seller", "Address of the wallet to withdraw tokens from.")
   .addParam("buyer", "Address of the recepient.")
   .addParam("amount", "Number of tokens to be transferred.")
-  .setAction(async (taskArgs) => {
-    const YetAnotherCoin = await hre.ethers.getContractFactory("YetAnotherCoin");
-    const yetAnotherCoin = await YetAnotherCoin.attach(yetAnotherCoinAddress);
+  .setAction(async (taskArgs, { ethers }) => {
+    const YetAnotherCoin = await ethers.getContractFactory("YetAnotherCoin");
+    const yetAnotherCoin = YetAnotherCoin.attach(yetAnotherCoinAddress);
     const signerArray = await ethers.getSigners();
     const txTransferFrom = yetAnotherCoin.connect(signerArray[taskArgs.signer]).transferFrom(taskArgs.seller, taskArgs.buyer, taskArgs.amount);
     const rTransferFrom = await (await txTransferFrom).wait();

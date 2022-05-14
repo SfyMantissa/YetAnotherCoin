@@ -13,7 +13,7 @@ A simple ERC-20-compliant token I made to better understand the [ERC-20 standard
 - [x] The contract is deployed to the Rinkeby testnet @0xE88F855fADD8e8A30DeDF1E8dddCf4138a2D1325
 - [x] Hardhat tasks were written and stored in _tasks/_, they cover everything in the ABI.
 - [x] Additional _verify_ task is made to easily verify the contract after deployment.
-- [ ] All tests, tasks and configs use TypeScript.
+- [x] All tests, tasks and configs use TypeScript.
 
 **Default network is set to Rinkeby in the hardhat config.**
 

@@ -1,12 +1,14 @@
-const yetAnotherCoinAddress = require('./address');
+import "@nomiclabs/hardhat-ethers";
+import { task } from "hardhat/config";
+import { yetAnotherCoinAddress } from "./address";
 
 task("burn",
   "Allows the caller to burn the specified `amount` of tokens from the `account` and decrease the `_totalSupply by the `amount`.")
   .addParam("account", "Address of the burned account.")
   .addParam("amount", "Number of tokens to be burned.")
-  .setAction(async (taskArgs) => {
-    const YetAnotherCoin = await hre.ethers.getContractFactory("YetAnotherCoin");
-    const yetAnotherCoin = await YetAnotherCoin.attach(yetAnotherCoinAddress);
+  .setAction(async (taskArgs, { ethers }) => {
+    const YetAnotherCoin = await ethers.getContractFactory("YetAnotherCoin");
+    const yetAnotherCoin = YetAnotherCoin.attach(yetAnotherCoinAddress);
     const txBurn = yetAnotherCoin.burn(taskArgs.account, taskArgs.amount);
     const rBurn = await (await txBurn).wait();
 
