@@ -21,4 +21,4 @@ A simple ERC-20-compliant token I made to better understand the [ERC-20 standard
 
 ![](demo/coverage.png)
 
-%GIF_WITH_TASKS_RUNNING%
+![](demo/tasks.png)
