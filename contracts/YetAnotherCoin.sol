@@ -133,21 +133,6 @@ contract YetAnotherCoin {
     return true;
   }
 
-  /// @notice Allows the caller to give the specified `amount` of tokens
-  ///         to the `account` and increase `totalSupply` by the `amount`.
-  /// @param  account Address of the recepient.
-  /// @param  amount Number of tokens to be transferred.
-  function mint(address account, uint256 amount)
-    public
-  {
-    require(account != address(0), "Receiving account must have a non-zero address!");
-
-    totalSupply += amount;
-    balanceOf[account] += amount;
-
-    emit Transfer(address(0), account, amount);
-  }
-
   /// @notice Allows the caller to burn the specified `amount` of tokens
   ///         from the `account` and decrease the `totalSupply 
   ///         by the `amount`.
@@ -155,9 +140,17 @@ contract YetAnotherCoin {
   /// @param  amount Number of tokens to be burned.
   function burn(address account, uint256 amount)
     external
+    returns (bool)
   {
-    require(account != address(0), "Burner account must have a non-zero address!");
-    require(balanceOf[account] >= amount, "Burn amount must not exceed balance!");
+    require(
+      account != address(0),
+      "Burner account must have a non-zero address!"
+    );
+
+    require(
+      balanceOf[account] >= amount,
+      "Burn amount must not exceed balance!"
+    );
     
     unchecked {
       balanceOf[account] -= amount;
@@ -166,5 +159,26 @@ contract YetAnotherCoin {
     totalSupply -= amount;
 
     emit Transfer(account, address(0), amount);
+    return true;
+  }
+
+  /// @notice Allows the caller to give the specified `amount` of tokens
+  ///         to the `account` and increase `totalSupply` by the `amount`.
+  /// @param  account Address of the recepient.
+  /// @param  amount Number of tokens to be transferred.
+  function mint(address account, uint256 amount)
+    public
+    returns (bool)
+  {
+    require(
+      account != address(0),
+      "Receiving account must have a non-zero address!"
+    );
+
+    totalSupply += amount;
+    balanceOf[account] += amount;
+
+    emit Transfer(address(0), account, amount);
+    return true;
   }
 }
