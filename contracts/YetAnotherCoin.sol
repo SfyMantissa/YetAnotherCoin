@@ -52,7 +52,7 @@ contract YetAnotherCoin is Ownable {
   /// @param  amount Number of tokens to be transferred.
   /// @return Flag to tell whether the call succeeded.
   function transfer(address buyer, uint256 amount) 
-    public
+    external
     returns (bool)
   {
     require(buyer != address(0), "Buyer must have a non-zero address!");
@@ -76,7 +76,7 @@ contract YetAnotherCoin is Ownable {
   /// @param  amount Number of tokens to be transferred.
   /// @return Flag to tell whether the call succeeded.
   function transferFrom(address seller, address buyer, uint256 amount)
-    public
+    external
     returns (bool)
   {
     require(seller != address(0), "Seller must have a non-zero address!");
@@ -106,7 +106,7 @@ contract YetAnotherCoin is Ownable {
   /// @param  amount Number of tokens to be allowed for transfer.
   /// @return Flag to tell whether the call succeeded.
   function approve(address delegate, uint256 amount)
-    public
+    external
     returns (bool)
   {
     require(delegate != address(0), "Delegate must have a non-zero address!");
@@ -123,7 +123,7 @@ contract YetAnotherCoin is Ownable {
   /// @param  account Address of the recepient.
   /// @param  amount Number of tokens to be transferred.
   function mint(address account, uint256 amount)
-    public
+    external
     onlyOwner
   {
     require(account != address(0), "Receiving account must have a non-zero address!");
@@ -140,7 +140,7 @@ contract YetAnotherCoin is Ownable {
   /// @param  account Address of the burned account.
   /// @param  amount Number of tokens to be burned.
   function burn(address account, uint256 amount)
-    public
+    external
     onlyOwner
   {
     require(account != address(0), "Burner account must have a non-zero address!");
@@ -155,7 +155,7 @@ contract YetAnotherCoin is Ownable {
   /// @notice Allows the caller to get token's `_name`.
   /// @return Token's name.
   function name()
-    public
+    external
     view
     returns (string memory)
   {
@@ -165,7 +165,7 @@ contract YetAnotherCoin is Ownable {
   /// @notice Allows the caller to get token's `_symbol`.
   /// @return Token's symbol.
   function symbol()
-    public
+    external
     view
     returns (string memory)
   {
@@ -175,7 +175,7 @@ contract YetAnotherCoin is Ownable {
   /// @notice Allows the caller to get token's `_decimals`.
   /// @return Token's decimals.
   function decimals()
-    public
+    external
     view
     returns (uint8)
   {
@@ -185,7 +185,7 @@ contract YetAnotherCoin is Ownable {
   /// @notice Allows the caller to get token's `_totalSupply`.
   /// @return Token's total supply.
   function totalSupply()
-    public
+    external
     view
     returns (uint256)
   {
@@ -196,7 +196,7 @@ contract YetAnotherCoin is Ownable {
   /// @param  account The address for which the balance is fetched.
   /// @return Token balance of the `account`.
   function balanceOf(address account)
-    public
+    external
     view
     returns (uint256)
   {
@@ -207,7 +207,7 @@ contract YetAnotherCoin is Ownable {
   ///         `account` to `delegate`
   /// @return The amount of allowance.
   function allowance(address account, address delegate)
-    public
+    external
     view
     returns (uint256)
   {
