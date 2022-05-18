@@ -9,13 +9,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 ///         ERC-20 standard.
 contract YetAnotherCoin is Ownable {
 
-  mapping(address => uint256) private balances;
-  mapping(address => mapping(address => uint256)) private allowances;
+  mapping(address => uint256) balances;
+  mapping(address => mapping(address => uint256)) allowances;
   
-  string private _name;
-  string private _symbol;
-  uint8 private _decimals;
-  uint256 private _totalSupply;
+  string _name;
+  string  _symbol;
+  uint8  _decimals;
+  uint256 _totalSupply;
 
   /// @notice Gets triggered upon any action where tokens are moved
   ///         between accounts: transfer(), transferFrom(), mint(), burn().
