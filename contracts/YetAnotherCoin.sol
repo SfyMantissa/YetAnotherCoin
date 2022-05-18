@@ -61,11 +61,17 @@ contract YetAnotherCoin {
   /**
    * @dev    Upon deployment owner gets the entire supply via mint().
    */
-  constructor() {
-    name = "YetAnotherCoin";
-    symbol = "YAC";
-    decimals = 5;  
-    mint(msg.sender, 100000);
+  constructor(
+    string memory _name,
+    string memory _symbol,
+    uint8 _decimals,
+    uint256 initialSupply
+  )
+  {
+    name = _name;
+    symbol = _symbol;
+    decimals = _decimals;  
+    mint(msg.sender, initialSupply);
   }
 
   /**

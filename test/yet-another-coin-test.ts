@@ -11,7 +11,12 @@ describe("YetAnotherCoin", () => {
 
   before(async () => {
     const YetAnotherCoin = await ethers.getContractFactory("YetAnotherCoin");
-    yetAnotherCoin = await YetAnotherCoin.deploy();
+    yetAnotherCoin = await YetAnotherCoin.deploy(
+      "YetAnotherCoin",
+      "YAC",
+      5,
+      100000
+    );
     accounts = await ethers.getSigners();
     await yetAnotherCoin.deployed();
   });
