@@ -68,8 +68,11 @@ contract YetAnotherCoin {
       balanceOf[msg.sender] >= amount,
       "Transfer amount must not exceed balance!"
     );
+    
+    unchecked {
+      balanceOf[msg.sender] -= amount;
+    }
 
-    balanceOf[msg.sender] -= amount;
     balanceOf[buyer] += amount;
 
     emit Transfer(msg.sender, buyer, amount);
@@ -99,9 +102,14 @@ contract YetAnotherCoin {
       allowance[seller][msg.sender] >= amount,
       "Delegate does not have enough allowance!"
     );
+    unchecked {
+      balanceOf[seller] -= amount;
+    }
 
-    balanceOf[seller] -= amount;
-    allowance[seller][msg.sender] -= amount;
+    unchecked {
+      allowance[seller][msg.sender] -= amount;
+    }
+
     balanceOf[buyer] += amount;
 
     emit Transfer(seller, buyer, amount);
@@ -150,8 +158,11 @@ contract YetAnotherCoin {
   {
     require(account != address(0), "Burner account must have a non-zero address!");
     require(balanceOf[account] >= amount, "Burn amount must not exceed balance!");
+    
+    unchecked {
+      balanceOf[account] -= amount;
+    }
 
-    balanceOf[account] -= amount;
     totalSupply -= amount;
 
     emit Transfer(account, address(0), amount);
