@@ -42,8 +42,7 @@ contract YetAnotherCoin is Ownable {
     _name = "YetAnotherCoin";
     _symbol = "YAC";
     _decimals = 5;  
-    _totalSupply = 100000;
-    balances[msg.sender] = _totalSupply;
+    mint(msg.sender, 100000);
   }
 
   /// @notice Allows to transfer a specified `amount` of tokens between
@@ -123,7 +122,7 @@ contract YetAnotherCoin is Ownable {
   /// @param  account Address of the recepient.
   /// @param  amount Number of tokens to be transferred.
   function mint(address account, uint256 amount)
-    external
+    public
     onlyOwner
   {
     require(account != address(0), "Receiving account must have a non-zero address!");
