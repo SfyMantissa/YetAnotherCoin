@@ -9,13 +9,23 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 ///         ERC-20 standard.
 contract YetAnotherCoin is Ownable {
 
-  mapping(address => uint256) balances;
-  mapping(address => mapping(address => uint256)) allowances;
+  /// @notice Get token balance of the `account`.
+  mapping(address => uint256) public balanceOf;
+
+  /// @notice Get the allowance provided by the `account` to `delegate`.
+  mapping(address => mapping(address => uint256)) public allowance;
   
-  string _name;
-  string  _symbol;
-  uint8  _decimals;
-  uint256 _totalSupply;
+  /// @notice Get token's human-readable name.
+  string public name;
+
+  /// @notice Get token's acronym representation.
+  string public symbol;
+
+  /// @notice Get token's decimals in end-user representation.
+  uint8 public decimals;
+
+  /// @notice Get token's total supply.
+  uint256 public totalSupply;
 
   /// @notice Gets triggered upon any action where tokens are moved
   ///         between accounts: transfer(), transferFrom(), mint(), burn().
@@ -39,9 +49,9 @@ contract YetAnotherCoin is Ownable {
   /// @dev    Upon deployment owner gets the entire supply. `_totalSupply` can be manipulated
   ///         with mint() and burn() functions.
   constructor() {
-    _name = "YetAnotherCoin";
-    _symbol = "YAC";
-    _decimals = 5;  
+    name = "YetAnotherCoin";
+    symbol = "YAC";
+    decimals = 5;  
     mint(msg.sender, 100000);
   }
 
@@ -56,12 +66,12 @@ contract YetAnotherCoin is Ownable {
   {
     require(buyer != address(0), "Buyer must have a non-zero address!");
     require(
-      balances[msg.sender] >= amount,
+      balanceOf[msg.sender] >= amount,
       "Transfer amount must not exceed balance!"
     );
 
-    balances[msg.sender] -= amount;
-    balances[buyer] += amount;
+    balanceOf[msg.sender] -= amount;
+    balanceOf[buyer] += amount;
 
     emit Transfer(msg.sender, buyer, amount);
     return true;
@@ -82,18 +92,18 @@ contract YetAnotherCoin is Ownable {
     require(buyer != address(0), "Buyer must have a non-zero address!");
 
     require(
-      balances[seller] >= amount,
+      balanceOf[seller] >= amount,
       "Seller does not have the specified amount!"
     );
 
     require(
-      allowances[seller][msg.sender] >= amount,
+      allowance[seller][msg.sender] >= amount,
       "Delegate does not have enough allowance!"
     );
 
-    balances[seller] -= amount;
-    allowances[seller][msg.sender] -= amount;
-    balances[buyer] += amount;
+    balanceOf[seller] -= amount;
+    allowance[seller][msg.sender] -= amount;
+    balanceOf[buyer] += amount;
 
     emit Transfer(seller, buyer, amount);
     return true;
@@ -110,7 +120,7 @@ contract YetAnotherCoin is Ownable {
   {
     require(delegate != address(0), "Delegate must have a non-zero address!");
 
-    allowances[msg.sender][delegate] = amount;
+    allowance[msg.sender][delegate] = amount;
 
     emit Approval(msg.sender, delegate, amount);
     return true;
@@ -127,8 +137,8 @@ contract YetAnotherCoin is Ownable {
   {
     require(account != address(0), "Receiving account must have a non-zero address!");
 
-    _totalSupply += amount;
-    balances[account] += amount;
+    totalSupply += amount;
+    balanceOf[account] += amount;
 
     emit Transfer(address(0), account, amount);
   }
@@ -143,73 +153,11 @@ contract YetAnotherCoin is Ownable {
     onlyOwner
   {
     require(account != address(0), "Burner account must have a non-zero address!");
-    require(balances[account] >= amount, "Burn amount must not exceed balance!");
+    require(balanceOf[account] >= amount, "Burn amount must not exceed balance!");
 
-    balances[account] -= amount;
-    _totalSupply -= amount;
+    balanceOf[account] -= amount;
+    totalSupply -= amount;
 
     emit Transfer(account, address(0), amount);
-  }
-
-  /// @notice Allows the caller to get token's `_name`.
-  /// @return Token's name.
-  function name()
-    external
-    view
-    returns (string memory)
-  {
-    return _name;
-  }
-
-  /// @notice Allows the caller to get token's `_symbol`.
-  /// @return Token's symbol.
-  function symbol()
-    external
-    view
-    returns (string memory)
-  {
-    return _symbol;
-  }
-
-  /// @notice Allows the caller to get token's `_decimals`.
-  /// @return Token's decimals.
-  function decimals()
-    external
-    view
-    returns (uint8)
-  {
-    return _decimals;
-  }
-
-  /// @notice Allows the caller to get token's `_totalSupply`.
-  /// @return Token's total supply.
-  function totalSupply()
-    external
-    view
-    returns (uint256)
-  {
-    return _totalSupply;
-  }
-
-  /// @notice Allows the caller to get token balance of the `account`.
-  /// @param  account The address for which the balance is fetched.
-  /// @return Token balance of the `account`.
-  function balanceOf(address account)
-    external
-    view
-    returns (uint256)
-  {
-    return balances[account];
-  }
-
-  /// @notice Allows the caller to get the allowance provided by the
-  ///         `account` to `delegate`
-  /// @return The amount of allowance.
-  function allowance(address account, address delegate)
-    external
-    view
-    returns (uint256)
-  {
-    return allowances[account][delegate];
   }
 }
