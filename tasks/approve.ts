@@ -1,6 +1,6 @@
 import "@nomiclabs/hardhat-ethers";
 import { task } from "hardhat/config";
-import { yetAnotherCoinAddress } from "./address";
+import config from '../config';
 
 task("approve",
   "Allows the caller to delegate spending the specified `amount` of tokens from caller's wallet by the `delegate`.")
@@ -9,7 +9,7 @@ task("approve",
   .addParam("amount", "Number of tokens to be allowed for transfer.")
   .setAction(async (taskArgs, { ethers }) => {
     const YetAnotherCoin = await ethers.getContractFactory("YetAnotherCoin");
-    const yetAnotherCoin = YetAnotherCoin.attach(yetAnotherCoinAddress);
+    const yetAnotherCoin = YetAnotherCoin.attach(config.RINKEBY_ADDRESS);
     const signerArray = await ethers.getSigners();
     const txApprove = yetAnotherCoin.connect(signerArray[taskArgs.signer]).approve(taskArgs.delegate, taskArgs.amount);
     const rApprove = await (await txApprove).wait();

@@ -1,6 +1,6 @@
 import "@nomiclabs/hardhat-ethers";
 import { task } from "hardhat/config";
-import { yetAnotherCoinAddress } from "./address";
+import config from '../config';
 
 task("mint",
   "Allows the caller to give the specified `amount` of tokens to the `account` and increase `_totalSupply` by the `amount`.")
@@ -8,7 +8,7 @@ task("mint",
   .addParam("amount", "Number of tokens to be transferred.")
   .setAction(async (taskArgs, { ethers }) => {
     const YetAnotherCoin = await ethers.getContractFactory("YetAnotherCoin");
-    const yetAnotherCoin = YetAnotherCoin.attach(yetAnotherCoinAddress);
+    const yetAnotherCoin = YetAnotherCoin.attach(config.RINKEBY_ADDRESS);
     const txMint = yetAnotherCoin.mint(taskArgs.account, taskArgs.amount);
     const rMint = await (await txMint).wait();
 
