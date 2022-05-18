@@ -2,21 +2,9 @@ import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-etherscan";
 import "solidity-coverage";
+import './tasks/index';
 import * as dotenv from "dotenv";
 dotenv.config();
-
-import './tasks/accounts';
-import './tasks/allowance';
-import './tasks/approve';
-import './tasks/balanceOf';
-import './tasks/burn';
-import './tasks/decimals';
-import './tasks/mint';
-import './tasks/name';
-import './tasks/symbol';
-import './tasks/totalSupply';
-import './tasks/transferFrom';
-import './tasks/transfer';
 
 module.exports = {
   solidity: "0.8.4",
