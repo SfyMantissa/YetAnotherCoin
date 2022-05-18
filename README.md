@@ -18,6 +18,19 @@ A simple ERC-20-compliant token I made to better understand the [ERC-20 standard
 
 **Default network is set to Rinkeby in the hardhat config.**
 
+## Update (2022-05-19)
+
+Optimized the contract in several ways:
+
+- [x] public → external for all functions except mint() @a67daf3
+- [x] add "unchecked" optimizations @c61085d
+- [x] import index.ts instead of multiple tasks @1dc52f4
+- [x] use implicit getters where possible @4d77365
+- [x] don't statically assign values in constructor @1689d73
+- [x] use mint() to assign totalSupply to owner in constructor @67d5ef8
+- [x] address of the deployed contract is now stored in config.ts @9d94291
+- [x] contract is no longer Ownable, removed onlyOwner @f91ed2b
+
 ## Demonstration
 
 ![](demo/coverage.png)
