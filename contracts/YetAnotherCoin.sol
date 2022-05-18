@@ -2,14 +2,12 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-
 /**
  * @author Sfy Mantissa
  * @title  A simple ERC-20-compliant token I made to better understand the
  *         ERC-20 standard.
  */
-contract YetAnotherCoin is Ownable {
+contract YetAnotherCoin {
 
   /** 
    * @notice Get token balance of the account.
@@ -155,7 +153,6 @@ contract YetAnotherCoin is Ownable {
    */
   function mint(address account, uint256 amount)
     public
-    onlyOwner
   {
     require(account != address(0), "Receiving account must have a non-zero address!");
 
@@ -174,7 +171,6 @@ contract YetAnotherCoin is Ownable {
    */
   function burn(address account, uint256 amount)
     external
-    onlyOwner
   {
     require(account != address(0), "Burner account must have a non-zero address!");
     require(balanceOf[account] >= amount, "Burn amount must not exceed balance!");
