@@ -135,19 +135,7 @@ contract YetAnotherCoin is IYetAnotherCoin {
     external
     returns (bool)
   {
-    require(buyer != address(0), "Buyer must have a non-zero address!");
-    require(
-      balanceOf[msg.sender] >= amount,
-      "Transfer amount must not exceed balance!"
-    );
-    
-    unchecked {
-      balanceOf[msg.sender] -= amount;
-    }
-
-    balanceOf[buyer] += amount;
-
-    emit Transfer(msg.sender, buyer, amount);
+    _transfer(msg.sender, buyer, amount);
     return true;
   }
 
@@ -155,29 +143,8 @@ contract YetAnotherCoin is IYetAnotherCoin {
     external
     returns (bool)
   {
-    require(seller != address(0), "Seller must have a non-zero address!");
-    require(buyer != address(0), "Buyer must have a non-zero address!");
-
-    require(
-      balanceOf[seller] >= amount,
-      "Seller does not have the specified amount!"
-    );
-
-    require(
-      allowance[seller][msg.sender] >= amount,
-      "Delegate does not have enough allowance!"
-    );
-    unchecked {
-      balanceOf[seller] -= amount;
-    }
-
-    unchecked {
-      allowance[seller][msg.sender] -= amount;
-    }
-
-    balanceOf[buyer] += amount;
-
-    emit Transfer(seller, buyer, amount);
+    _transfer(seller, buyer, amount);
+    _spendAllowance(seller, msg.sender, amount);
     return true;
   }
 
@@ -231,6 +198,38 @@ contract YetAnotherCoin is IYetAnotherCoin {
 
     emit Transfer(address(0), account, amount);
     return true;
+  }
+
+  function _transfer(address seller, address buyer, uint256 amount)
+    internal
+  {
+    require(seller != address(0), "Seller must have a non-zero address!");
+    require(buyer != address(0), "Buyer must have a non-zero address!");
+    require(
+      balanceOf[seller] >= amount,
+      "Seller does not have the specified amount!"
+    );
+
+    unchecked {
+      balanceOf[msg.sender] -= amount;
+    }
+
+    balanceOf[buyer] += amount;
+
+    emit Transfer(seller, buyer, amount);
+  }
+
+  function _spendAllowance(address seller, address delegate, uint256 amount)
+    internal
+  {
+    require(
+      allowance[seller][delegate] >= amount,
+      "Delegate does not have enough allowance!"
+    );
+
+    unchecked {
+      allowance[seller][delegate] -= amount;
+    }
   }
 
 }
