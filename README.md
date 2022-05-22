@@ -10,10 +10,10 @@ A simple ERC-20-compliant token I made to better understand the [ERC-20 standard
 - [x] Includes tests which provide 100% coverage according to _solidity-coverage_ in _test/yet-another-coin-test.ts_.
 - [x] Deployment script is located in _scripts/deploy.ts_.
 - [x] All private deployment data is stored using [dotenv](https://www.npmjs.com/package/dotenv).
-- [x] The contract is deployed to the Rinkeby testnet @0xfAA8C0Beb910f8CF1a4F12Ef7848BA759550A9Ce.
+- [x] The contract is deployed to the Rinkeby testnet @0xB89F9f4Da44E29D8A60dC97038E220E3f7642C42.
 - [x] Hardhat tasks were written and stored in _tasks/_, they cover everything in the ABI.
 - [x] Additional _verify_ task is made to easily verify the contract after deployment.
-- [x] Verified contract is available on [Etherscan](https://rinkeby.etherscan.io/address/0xfAA8C0Beb910f8CF1a4F12Ef7848BA759550A9Ce#code).
+- [x] Verified contract is available on [Etherscan](https://rinkeby.etherscan.io/address/0xB89F9f4Da44E29D8A60dC97038E220E3f7642C42#code).
 - [x] All tests, tasks and configs use TypeScript.
 
 **Default network is set to Rinkeby in the hardhat config.**
@@ -30,6 +30,22 @@ Optimized the contract in several ways:
 - [x] use mint() to assign totalSupply to owner in constructor @67d5ef8
 - [x] address of the deployed contract is now stored in config.ts @9d94291
 - [x] contract is no longer Ownable, removed onlyOwner @f91ed2b
+
+## Update (2022-05-22)
+
+Optimized the contract in several ways:
+
+- [x] Made the interface IYetAnotherCoin as it makes the code more modular and extensible.
+- [x] Moved all NatSpec to the interface.
+- [x] Made a helper \_transfer() function to make the code less repetitive.
+- [x] Made a helper \_spendAllowance() function to handle require() in transferFrom().
+- [x] Updated tests.
+- [x] Compiler version up (0.8.4 → 0.8.8) because:
+
+      ```
+      Starting from Solidity 0.8.8, the override keyword is not required when overriding an interface function, except for the case where the function is defined in multiple bases.
+      ```      
+- [ ] Re-verified the new contract and updated README.
 
 ## Demonstration
 
