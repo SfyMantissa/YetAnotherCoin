@@ -41,10 +41,7 @@ Optimized the contract in several ways:
 - [x] Made a helper \_spendAllowance() function to handle require() in transferFrom().
 - [x] Updated tests.
 - [x] Compiler version up (0.8.4 → 0.8.8) because:
-
-      ```
       Starting from Solidity 0.8.8, the override keyword is not required when overriding an interface function, except for the case where the function is defined in multiple bases.
-      ```      
 - [x] Re-verified the new contract and updated README.
 
 ## Demonstration
