@@ -45,7 +45,7 @@ Optimized the contract in several ways:
       ```
       Starting from Solidity 0.8.8, the override keyword is not required when overriding an interface function, except for the case where the function is defined in multiple bases.
       ```      
-- [ ] Re-verified the new contract and updated README.
+- [x] Re-verified the new contract and updated README.
 
 ## Demonstration
 
