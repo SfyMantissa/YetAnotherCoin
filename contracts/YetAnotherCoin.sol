@@ -5,25 +5,7 @@ pragma solidity ^0.8.8;
 /// @author Sfy Mantissa
 /// @title  A simple ERC-20-compliant token I made to better understand the
 ///         ERC-20 standard.
-contract YetAnotherCoin {
-
-  /// @notice Get token balance of the account.
-  mapping(address => uint256) public balanceOf;
-
-  /// @notice Get the allowance provided by the account to delegate.
-  mapping(address => mapping(address => uint256)) public allowance;
-  
-  /// @notice Get token's human-readable name.
-  string public name;
-
-  /// @notice Get token's acronym representation.
-  string public symbol;
-
-  /// @notice Get token's decimals for end-user representation.
-  uint8 public decimals;
-
-  /// @notice Get token's total supply.
-  uint256 public totalSupply;
+interface IYetAnotherCoin {
 
   /// @notice Gets triggered upon any action where tokens are moved
   ///         between accounts: transfer(), transferFrom(), mint(), burn().
@@ -40,7 +22,102 @@ contract YetAnotherCoin {
     uint256 amount
   );
 
-  /// @notice Upon deployment owner gets the entire supply via mint().
+  /// @notice Get token `balance` of the `account`.
+  /// @param account Address of the account.
+  function balanceOf(address account)
+    external
+    view
+    returns (uint256);
+
+  /// @notice Get the allowance provided by the account to delegate.
+  /// @param account Address of the account.
+  /// @param delegate Address of the delegate.
+  function allowance(address account, address delegate)
+    external
+    view
+    returns (uint256);
+
+  /// @notice Get token's human-readable name.
+  function name()
+    external
+    view
+    returns (string memory);
+
+  /// @notice Get token's acronym representation.
+  function symbol()
+    external
+    view
+    returns (string memory);
+
+  /// @notice Get token's decimals for end-user representation.
+  function decimals()
+    external
+    view
+    returns (uint8);
+
+  /// @notice Get token's total supply.
+  function totalSupply()
+    external
+    view
+    returns (uint256);
+
+  /// @notice Allows to transfer a specified `amount` of tokens between
+  ///         the caller and the `buyer`
+  /// @param  buyer Address of the recepient.
+  /// @param  amount Number of tokens to be transferred.
+  /// @return Flag to tell whether the call succeeded.
+  function transfer(address buyer, uint256 amount)
+    external
+    returns (bool);
+
+  /// @notice Allows to transfer a specified `amount` of tokens on behalf
+  ///         of `seller` by the delegate.
+  /// @dev    Delegate must have enough allowance.
+  /// @param  seller Address of the wallet to withdraw tokens from.
+  /// @param  buyer Address of the recepient.
+  /// @param  amount Number of tokens to be transferred.
+  /// @return Flag to tell whether the call succeeded.
+  function transferFrom(address seller, address buyer, uint256 amount)
+    external
+    returns (bool);
+
+  /// @notice Allows the caller to delegate spending the specified `amount`
+  ///         of tokens from caller's wallet by the `delegate`.
+  /// @param  delegate Address of the delegate.
+  /// @param  amount Number of tokens to be allowed for transfer.
+  /// @return Flag to tell whether the call succeeded.
+  function approve(address delegate, uint256 amount)
+    external
+    returns (bool);
+
+  /// @notice Allows the caller to burn the specified `amount` of tokens
+  ///         from the `account` and decrease the `totalSupply 
+  ///         by the `amount`.
+  /// @param  account Address of the burned account.
+  /// @param  amount Number of tokens to be burned.
+  function burn(address account, uint256 amount)
+    external
+    returns (bool);
+
+  /// @notice Allows the caller to give the specified `amount` of tokens
+  ///         to the `account` and increase `totalSupply` by the `amount`.
+  /// @param  account Address of the recepient.
+  /// @param  amount Number of tokens to be transferred.
+  function mint(address account, uint256 amount)
+    external
+    returns (bool);
+
+}
+
+contract YetAnotherCoin is IYetAnotherCoin {
+
+  mapping(address => uint256) public balanceOf;
+  mapping(address => mapping(address => uint256)) public allowance;
+  string public name;
+  string public symbol;
+  uint8 public decimals;
+  uint256 public totalSupply;
+
   constructor(
     string memory _name,
     string memory _symbol,
@@ -54,11 +131,6 @@ contract YetAnotherCoin {
     mint(msg.sender, initialSupply);
   }
 
-  /// @notice Allows to transfer a specified `amount` of tokens between
-  ///         the caller and the `buyer`
-  /// @param  buyer Address of the recepient.
-  /// @param  amount Number of tokens to be transferred.
-  /// @return Flag to tell whether the call succeeded.
   function transfer(address buyer, uint256 amount) 
     external
     returns (bool)
@@ -79,13 +151,6 @@ contract YetAnotherCoin {
     return true;
   }
 
-  /// @notice Allows to transfer a specified `amount` of tokens on behalf
-  ///         of `seller` by the delegate.
-  /// @dev    Delegate must have enough allowance.
-  /// @param  seller Address of the wallet to withdraw tokens from.
-  /// @param  buyer Address of the recepient.
-  /// @param  amount Number of tokens to be transferred.
-  /// @return Flag to tell whether the call succeeded.
   function transferFrom(address seller, address buyer, uint256 amount)
     external
     returns (bool)
@@ -116,11 +181,6 @@ contract YetAnotherCoin {
     return true;
   }
 
-  /// @notice Allows the caller to delegate spending the specified `amount`
-  ///         of tokens from caller's wallet by the `delegate`.
-  /// @param  delegate Address of the delegate.
-  /// @param  amount Number of tokens to be allowed for transfer.
-  /// @return Flag to tell whether the call succeeded.
   function approve(address delegate, uint256 amount)
     external
     returns (bool)
@@ -133,11 +193,6 @@ contract YetAnotherCoin {
     return true;
   }
 
-  /// @notice Allows the caller to burn the specified `amount` of tokens
-  ///         from the `account` and decrease the `totalSupply 
-  ///         by the `amount`.
-  /// @param  account Address of the burned account.
-  /// @param  amount Number of tokens to be burned.
   function burn(address account, uint256 amount)
     external
     returns (bool)
@@ -162,10 +217,6 @@ contract YetAnotherCoin {
     return true;
   }
 
-  /// @notice Allows the caller to give the specified `amount` of tokens
-  ///         to the `account` and increase `totalSupply` by the `amount`.
-  /// @param  account Address of the recepient.
-  /// @param  amount Number of tokens to be transferred.
   function mint(address account, uint256 amount)
     public
     returns (bool)
@@ -181,4 +232,5 @@ contract YetAnotherCoin {
     emit Transfer(address(0), account, amount);
     return true;
   }
+
 }
