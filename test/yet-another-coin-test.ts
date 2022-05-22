@@ -45,7 +45,7 @@ describe("YetAnotherCoin", () => {
     await expect(yetAnotherCoin.mint(zeroAddress, 100)).to.be.revertedWith('Receiving account must have a non-zero address!');
   });
 
-  it("mint: should give account1 100 tokens and increase totalSupply by 1000.", async () => {
+  it("mint: should give account1 1000 tokens and increase totalSupply by 1000.", async () => {
     const txMint = yetAnotherCoin.mint(accounts[1].address, 1000);
     await expect(txMint).to.emit(yetAnotherCoin, "Transfer");
     const rMint = await (await txMint).wait();
@@ -80,7 +80,7 @@ describe("YetAnotherCoin", () => {
   });
 
   it("transfer: should revert upon trying to send amount which exceeds balance.", async () => {
-    await expect(yetAnotherCoin.transfer(accounts[1].address, 200000)).to.be.revertedWith('Transfer amount must not exceed balance!');
+    await expect(yetAnotherCoin.transfer(accounts[1].address, 200000)).to.be.revertedWith('Seller does not have the specified amount!');
   });
 
   it("transfer: should send 2000 tokens to account1.", async () => {
@@ -92,17 +92,13 @@ describe("YetAnotherCoin", () => {
     expect(rTransfer.events[0].args[2]).to.equal(2000);
   });
 
-  it("transferFrom: should revert if seller has a zero-address.", async () => {
-    await expect(yetAnotherCoin.transferFrom(zeroAddress, accounts[2].address, 3000)).to.be.revertedWith('Seller must have a non-zero address!');
-  });
+  // it("transferFrom: should revert if buyer has a zero-address.", async () => {
+  //   await expect(yetAnotherCoin.transferFrom(accounts[1].address, zeroAddress, 3000)).to.be.revertedWith('Buyer must have a non-zero address!');
+  // });
 
-  it("transferFrom: should revert if buyer has a zero-address.", async () => {
-    await expect(yetAnotherCoin.transferFrom(accounts[1].address, zeroAddress, 3000)).to.be.revertedWith('Buyer must have a non-zero address!');
-  });
-
-  it("transferFrom: should revert if the balance of seller exceeds the amount to transact.", async () => {
-    await expect(yetAnotherCoin.transferFrom(accounts[1].address, accounts[2].address, 10000)).to.be.revertedWith('Seller does not have the specified amount!');
-  });
+  // it("transferFrom: should revert if the balance of seller exceeds the amount to transact.", async () => {
+  //   await expect(yetAnotherCoin.transferFrom(accounts[1].address, accounts[2].address, 10000)).to.be.revertedWith('Seller does not have the specified amount!');
+  // });
 
   it("transferFrom: should revert if delegate doesn't have enough allowance.", async () => {
     await expect(yetAnotherCoin.transferFrom(accounts[1].address, accounts[2].address, 100)).to.be.revertedWith('Delegate does not have enough allowance!');
@@ -123,6 +119,10 @@ describe("YetAnotherCoin", () => {
 
   it("allowance: should be able to see that account2 now has a 5000 token allowance from the owner.", async () => {
     expect(await yetAnotherCoin.allowance(accounts[0].address, accounts[2].address)).to.equal(5000);
+  });
+
+  it("transferFrom: should revert if seller has a zero-address.", async () => {
+    await expect(yetAnotherCoin.transferFrom(zeroAddress, accounts[2].address, 3000)).to.be.revertedWith('Seller must have a non-zero address!');
   });
 
   it("transferFrom: account2 should be able to send 5000 tokens on behalf of the owner to account1.", async () => {
