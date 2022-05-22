@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.8;
 
 /// @author Sfy Mantissa
 /// @title  A simple ERC-20-compliant token I made to better understand the

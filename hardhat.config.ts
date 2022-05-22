@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 module.exports = {
-  solidity: "0.8.4",
+  solidity: "0.8.8",
   defaultNetwork: "rinkeby",
   networks: {
     rinkeby: {
